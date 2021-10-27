@@ -19,9 +19,10 @@ describe('밥 맛있는지 테스트', function () {
   })
   describe('getRandomTargetMember 길이 테스트', function () {
     it('정상 작동 테스트', function () {
-      const result = getRandomTargetMember(["김영재", "김일재", "김이재", "김삼재"])
+      const result = getRandomTargetMember(["김0재", "김1재", "김2재", "김3재"])
       expect(result).to.be.a('array')
       expect(result).to.have.lengthOf(2)
+      expect(result[0]).to.not.equal(result[1])
     })
   })
 })
