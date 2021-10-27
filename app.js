@@ -1,6 +1,7 @@
 const cors = require('cors')
 const express = require('express')
 const app = express()
+app.use(express.json())
 const port = 5000
 const mongoose = require('mongoose')
 const {generateRandString} = require("./lib")
@@ -14,8 +15,8 @@ const Board = mongoose.model('Board', {
 })
 
 app.post('/boards', async (req, res) => {
-  const name = generateRandString()
-  const board = new Board({name, content: generateRandString()})
+  const { name = generateRandString(), content = generateRandString() } = req.body
+  const board = new Board({name, content })
   await board.save()
   res.send(`${name} 추가 완료`)
 })
@@ -32,3 +33,4 @@ app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
 })
 
+module.exports = app
