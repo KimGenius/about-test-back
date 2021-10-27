@@ -21,5 +21,6 @@ function getRandomInt(min, max) {
 }
 
 module.exports = {
-  getRandomTargetMember
+  getRandomTargetMember,
+  getRandomInt
 }

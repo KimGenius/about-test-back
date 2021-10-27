@@ -1,11 +1,27 @@
 const { expect } = require('chai')
-const generateRandString = require('../lib').generateRandString
+const { getRandomTargetMember, getRandomInt } = require('../lib')
 
-describe('App test', function () {
-  it('generateRandString 작동 테스트', function () {
-    expect(generateRandString()).to.not.be.empty
+describe('밥 맛있는지 테스트', function () {
+  describe('getRandomInt 작동 테스트', function () {
+    it('정상 작동 테스트', function () {
+      for (let i = 0; i < 50; i++) {
+        const result = getRandomInt(1, 3)
+        expect(result).to.be.a('number')
+        expect(result).to.be.above(0)
+        expect(result).to.be.below(3)
+      }
+    })
+    it('max < min 테스트', function () {
+      const result = getRandomInt(3, 1)
+      expect(result).to.be.a('string')
+      expect(result).to.equal("min 값은 max 보다 클 수 없습니다.")
+    })
   })
-  it('generateRandString 길이 테스트', function () {
-    expect(generateRandString(200)).to.have.lengthOf(200)
+  describe('getRandomTargetMember 길이 테스트', function () {
+    it('정상 작동 테스트', function () {
+      const result = getRandomTargetMember(["김영재", "김일재", "김이재", "김삼재"])
+      expect(result).to.be.a('array')
+      expect(result).to.have.lengthOf(2)
+    })
   })
 })
