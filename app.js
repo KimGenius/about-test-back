@@ -1,8 +1,10 @@
+const cors = require('cors')
 const express = require('express')
 const app = express()
 const port = 5000
 const mongoose = require('mongoose')
 mongoose.connect('mongodb://localhost:27017/about-test')
+app.use(cors({ origin: true, credentials: true }));
 
 const Board = mongoose.model('Board', {
   name: String,
