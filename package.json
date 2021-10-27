@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon app.js",
     "utest": "mocha tests/unit-test.js",
-    "stest": "mocha tests/scenario-test.js"
+    "stest": "mocha tests/scenario-test.js --exit"
   },
   "keywords": [],
   "author": "",
