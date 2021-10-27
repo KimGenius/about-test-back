@@ -22,7 +22,7 @@ app.post('/boards', async (req, res) => {
 })
 
 app.get('/boards', async (req, res) => {
-  res.json(await Board.find())
+  res.json(await Board.find().sort({createdAt: -1}))
 })
 
 app.get('/boards/:author', async (req, res) => {
