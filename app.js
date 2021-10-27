@@ -11,12 +11,12 @@ app.post('/bab', async (req, res) => {
   const {newMember, targetMember} = req.body
   if (!newMember) return res.status(400).json({message: '신규 입사자를 입력해주세요'})
   if (!targetMember) return res.status(400).json({message: '기존 팀원을 입력해주세요'})
-  const [rows] = await db.execute(`SELECT *
+  const [rows] = await db.execute(`SELECT resultMember
                                    FROM bab
                                    WHERE newMember = '${newMember}'`)
   const historyList = []
   for (const row of rows) {
-    const data = row.targetMember.split(',')
+    const data = row.resultMember.split(',')
     historyList.push(data[0])
     historyList.push(data[1])
   }
@@ -30,7 +30,7 @@ app.post('/bab', async (req, res) => {
       message: '밥을 같이 먹지 않은 팀원이 2명 미만입니다.'
     })
   }
-  await db.execute(`INSERT INTO bab(newMember, targetMember) VALUES('${newMember}', '${getRandomTargetMember(splitTargetMember).join(',')}')`)
+  await db.execute(`INSERT INTO bab(newMember, targetMember, resultMember) VALUES('${newMember}', '${targetMember}', '${getRandomTargetMember(splitTargetMember).join(',')}')`)
   return res.status(201).json()
 })
 
