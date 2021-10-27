@@ -18,7 +18,7 @@ app.post('/boards', async (req, res) => {
   const { name = generateRandString(), content = generateRandString() } = req.body
   const board = new Board({name, content })
   await board.save()
-  res.send(`${name} 추가 완료`)
+  res.status(200).json()
 })
 
 app.get('/boards', async (req, res) => {
