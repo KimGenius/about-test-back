@@ -3,32 +3,40 @@ const express = require('express')
 const app = express()
 app.use(express.json())
 const port = 5000
-const mongoose = require('mongoose')
-const {generateRandString} = require("./lib")
-mongoose.connect('mongodb://localhost:27017/about-test')
+const {getRandomTargetMember} = require("./lib")
+const db = require("./db")
 app.use(cors({origin: true, credentials: true}))
 
-const Board = mongoose.model('Board', {
-  name: String,
-  content: String,
-  createdAt: {type: Date, default: Date.now},
+app.post('/bab', async (req, res) => {
+  const {newMember, targetMember} = req.body
+  if (!newMember) return res.status(400).json({message: '신규 입사자를 입력해주세요'})
+  if (!targetMember) return res.status(400).json({message: '기존 팀원을 입력해주세요'})
+  const [rows] = await db.execute(`SELECT *
+                                   FROM bab
+                                   WHERE newMember = '${newMember}'`)
+  const historyList = []
+  for (const row of rows) {
+    const data = row.targetMember.split(',')
+    historyList.push(data[0])
+    historyList.push(data[1])
+  }
+  const splitTargetMember = targetMember.split(',')
+  for (history of historyList) {
+    const isHistory = splitTargetMember.indexOf(history)
+    if (isHistory > -1) splitTargetMember.splice(isHistory, 1)
+  }
+  if (splitTargetMember.length < 2) {
+    return res.status(409).json({
+      message: '밥을 같이 먹지 않은 팀원이 2명 미만입니다.'
+    })
+  }
+  await db.execute(`INSERT INTO bab(newMember, targetMember) VALUES('${newMember}', '${getRandomTargetMember(splitTargetMember).join(',')}')`)
+  return res.status(201).json()
 })
 
-app.post('/boards', async (req, res) => {
-  let { name, content } = req.body
-  if (!name) name = generateRandString()
-  if (!content) content = generateRandString(200)
-  const board = new Board({ name, content })
-  await board.save()
-  res.status(200).json()
-})
-
-app.get('/boards', async (req, res) => {
-  res.json(await Board.find().sort({createdAt: -1}))
-})
-
-app.get('/boards/:author', async (req, res) => {
-  res.json(await Board.find({name: {"$regex": req.params.author, "$options": "i"}}))
+app.get('/bab', async (req, res) => {
+  const [rows] = await db.execute("SELECT * FROM bab ORDER BY createdAt DESC")
+  res.json(rows)
 })
 
 app.listen(port, () => {
