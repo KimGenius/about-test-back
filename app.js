@@ -15,8 +15,10 @@ const Board = mongoose.model('Board', {
 })
 
 app.post('/boards', async (req, res) => {
-  const { name = generateRandString(), content = generateRandString() } = req.body
-  const board = new Board({name, content })
+  let { name, content } = req.body
+  if (!name) name = generateRandString()
+  if (!content) content = generateRandString()
+  const board = new Board({ name, content })
   await board.save()
   res.status(200).json()
 })
