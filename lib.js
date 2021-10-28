@@ -6,7 +6,7 @@ function getRandomTargetMember(targetMember = []) {
       i--
       continue
     }
-    result.push(randTargetMember)
+    result.push(randTargetMember.trim())
   }
   return result
 }
