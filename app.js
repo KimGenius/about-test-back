@@ -2,7 +2,7 @@ const cors = require('cors')
 const express = require('express')
 const app = express()
 app.use(express.json())
-const port = 5000
+const port = 4000
 const {getRandomTargetMember} = require("./lib")
 const db = require("./db")
 app.use(cors({origin: true, credentials: true}))
