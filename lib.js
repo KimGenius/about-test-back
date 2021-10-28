@@ -1,7 +1,7 @@
 function getRandomTargetMember(targetMember = []) {
   let result = []
   for (let i = 0; i < 2; i++) {
-    const randTargetMember = targetMember[getRandomInt(0, targetMember.length)].trim()
+    const randTargetMember = targetMember[getRandomInt(0, targetMember.length)]
     if (result.includes(randTargetMember)) {
       i--
       continue

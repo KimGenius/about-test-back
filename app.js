@@ -20,7 +20,9 @@ app.post('/bab', async (req, res) => {
     historyList.push(data[0])
     historyList.push(data[1])
   }
-  const splitTargetMember = targetMember.split(',')
+  const splitTargetMember = targetMember.split(',').map(member => {
+    return member.trim()
+  })
   for (history of historyList) {
     const isHistory = splitTargetMember.indexOf(history)
     if (isHistory > -1) splitTargetMember.splice(isHistory, 1)
