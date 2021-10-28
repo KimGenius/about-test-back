@@ -8,7 +8,9 @@ const db = require("./db")
 app.use(cors({origin: true, credentials: true}))
 
 app.post('/bab', async (req, res) => {
-  const {newMember, targetMember} = req.body
+  let {newMember, targetMember} = req.body
+  newMember = newMember.trim()
+  targetMember = targetMember.trim()
   if (!newMember) return res.status(400).json({message: '신규 입사자를 입력해주세요'})
   if (!targetMember) return res.status(400).json({message: '기존 팀원을 입력해주세요'})
   const [rows] = await db.execute(`SELECT resultMember
