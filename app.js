@@ -38,6 +38,9 @@ app.post('/bab', async (req, res) => {
   return res.status(201).json()
 })
 
+
+
+
 app.get('/bab', async (req, res) => {
   const [rows] = await db.execute("SELECT * FROM bab ORDER BY createdAt DESC")
   res.json(rows)
