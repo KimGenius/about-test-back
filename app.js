@@ -7,7 +7,6 @@ const {getRandomTargetMember} = require("./lib")
 const db = require("./db")
 app.use(cors({origin: true, credentials: true}))
 
-
 app.post('/bab', async (req, res) => {
   let {newMember, targetMember} = req.body
   newMember = newMember.trim()
